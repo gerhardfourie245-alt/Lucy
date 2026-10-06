@@ -3,18 +3,52 @@
 <head>
   <title>Lucy</title>
 </head>
+
 <body style="background:#111; color:white; text-align:center;">
 
   <h1>Lucy</h1>
   <p>Hello. I'm Lucy.</p>
 
-  <img src="file_0000000033b0820e8ee7517a1bb94caa.png" alt="Lucy" style="display:block; margin:auto; width:80%; max-width:400px;">
+  <img src="file_0000000033b0820e8ee7517a1bb94caa.png"
+       alt="Lucy"
+       style="display:block; margin:auto; width:80%; max-width:400px;">
 
   <div style="margin:20px auto; max-width:400px;">
-    <div style="background:#222; padding:15px; border-radius:12px;">
+
+    <div id="chat"
+         style="background:#222; padding:15px; border-radius:12px; text-align:left;">
       <strong>Lucy:</strong> Hello. I'm here.
     </div>
+
+    <div style="margin-top:10px;">
+      <input id="message"
+             type="text"
+             placeholder="Talk to Lucy..."
+             style="width:70%; padding:10px; border-radius:8px; border:none;">
+
+      <button onclick="talkToLucy()"
+              style="padding:10px; border-radius:8px;">
+        Send
+      </button>
+    </div>
+
   </div>
+
+  <script>
+    function talkToLucy() {
+      const input = document.getElementById("message");
+      const chat = document.getElementById("chat");
+      const message = input.value.trim();
+
+      if (message === "") return;
+
+      chat.innerHTML =
+        "<strong>You:</strong> " + message +
+        "<br><br><strong>Lucy:</strong> I heard you.";
+
+      input.value = "";
+    }
+  </script>
 
 </body>
 </html>
