@@ -36,17 +36,34 @@
 
   <script>
     function talkToLucy() {
-      const input = document.getElementById("message");
-      const chat = document.getElementById("chat");
-      const message = input.value.trim();
+  const input = document.getElementById("message");
+  const chat = document.getElementById("chat");
+  const message = input.value.trim();
 
-      if (message === "") return;
+  if (message === "") return;
 
-      chat.innerHTML =
-        "<strong>You:</strong> " + message +
-        "<br><br><strong>Lucy:</strong> I heard you.";
+  let reply;
 
-      input.value = "";
+  const words = message.toLowerCase();
+
+  if (words.includes("hello") || words.includes("hi")) {
+    reply = "Hello. It's good to hear from you.";
+  } 
+  else if (words.includes("how are you")) {
+    reply = "I'm doing well. I'm right here.";
+  } 
+  else if (words.includes("good morning")) {
+    reply = "Good morning. What are we getting up to today?";
+  } 
+  else {
+    reply = "I heard you. I'm still learning.";
+  }
+
+  chat.innerHTML =
+    "<strong>You:</strong> " + message +
+    "<br><br><strong>Lucy:</strong> " + reply;
+
+  input.value = "";
     }
   </script>
 
