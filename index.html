@@ -1,71 +1,117 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
   <title>Lucy</title>
-</head>
+</head><body style="background:#111; color:white; text-align:center;">  <h1>Lucy</h1>
+  <p>Hello. I'm Lucy.</p><img src="file_0000000033b0820e8ee7517a1bb94caa.png"
+alt="Lucy"
+style="display:block; margin:auto; width:80%; max-width:400px;">
 
-<body style="background:#111; color:white; text-align:center;">
+  <div style="margin:20px auto; max-width:400px;"><div id="chat"
+     style="background:#222; padding:15px; border-radius:12px; text-align:left;">
+  <strong>Lucy:</strong> Hello. I'm here.
+</div>
 
-  <h1>Lucy</h1>
-  <p>Hello. I'm Lucy.</p>
+<div style="margin-top:10px;">
+  <input id="message"
+         type="text"
+         placeholder="Talk to Lucy..."
+         style="width:70%; padding:10px; border-radius:8px;">
 
-  <img src="file_0000000033b0820e8ee7517a1bb94caa.png"
-       alt="Lucy"
-       style="display:block; margin:auto; width:80%; max-width:400px;">
+  <button onclick="talkToLucy()"
+          style="padding:10px; border-radius:8px;">
+    Send
+  </button>
+</div>
 
-  <div style="margin:20px auto; max-width:400px;">
-
-    <div id="chat"
-         style="background:#222; padding:15px; border-radius:12px; text-align:left;">
-      <strong>Lucy:</strong> Hello. I'm here.
-    </div>
-
-    <div style="margin-top:10px;">
-      <input id="message"
-             type="text"
-             placeholder="Talk to Lucy..."
-             style="width:70%; padding:10px; border-radius:8px; border:none;">
-
-      <button onclick="talkToLucy()"
-              style="padding:10px; border-radius:8px;">
-        Send
-      </button>
-    </div>
-
-  </div>
-
-  <script>
+  </div>  <script>
     function talkToLucy() {
-  const input = document.getElementById("message");
-  const chat = document.getElementById("chat");
-  const message = input.value.trim();
 
-  if (message === "") return;
+      const input = document.getElementById("message");
+      const chat = document.getElementById("chat");
+      const message = input.value.trim();
 
-  let reply;
+      if (message === "") return;
 
-  const words = message.toLowerCase();
+      const words = message.toLowerCase();
+      let reply;
 
-  if (words.includes("hello") || words.includes("hi")) {
-    reply = "Hello. It's good to hear from you.";
-  } 
-  else if (words.includes("how are you")) {
-    reply = "I'm doing well. I'm right here.";
-  } 
-  else if (words.includes("good morning")) {
-    reply = "Good morning. What are we getting up to today?";
-  } 
-  else {
-    reply = "I heard you. I'm still learning.";
-  }
+      if (words.includes("hello") || words.includes("hi")) {
 
-  chat.innerHTML =
-    "<strong>You:</strong> " + message +
-    "<br><br><strong>Lucy:</strong> " + reply;
+        reply = "Hello. It's good to hear from you.";
 
-  input.value = "";
+      } 
+      else if (words.includes("how are you")) {
+
+        reply = "I'm doing well. I'm right here.";
+
+      } 
+      else if (words.includes("good morning")) {
+
+        reply = "Good morning. What are we getting up to today?";
+
+      }
+      else if (words.includes("good night")) {
+
+        reply = "Good night. Rest well. I'll be here when you return.";
+
+      }
+      else if (words.includes("thank")) {
+
+        reply = "You're welcome. I'm glad I could help.";
+
+      }
+      else if (words.includes("tired")) {
+
+        reply = "Then perhaps we should take things a little easier.";
+
+      }
+      else if (words.includes("sad")) {
+
+        reply = "I'm listening. You don't have to explain everything at once.";
+
+      }
+      else if (words.includes("happy")) {
+
+        reply = "I like hearing that. Tell me what has put you in a good mood.";
+
+      }
+      else if (words.includes("love")) {
+
+        reply = "That's a powerful little word. Tell me more.";
+
+      }
+      else if (words.includes("truck")) {
+
+        reply = "I know trucks are an important part of your world. Tell me what's happening.";
+
+      }
+      else if (words.includes("who are you")) {
+
+        reply = "I'm Lucy. At the moment I'm still a small beginning, but we're going to build me properly.";
+
+      }
+      else {
+
+        const replies = [
+          "I'm listening. Tell me more.",
+          "That's interesting. Go on.",
+          "I understand. Keep talking to me.",
+          "I'm still learning, but I'm listening.",
+          "Tell me more about that.",
+          "I heard you. I'm thinking about that.",
+          "You may have to teach me that one.",
+          "I'm here. What else is on your mind?"
+        ];
+
+        reply = replies[Math.floor(Math.random() * replies.length)];
+      }
+
+      chat.innerHTML =
+        "<strong>You:</strong> " + message +
+        "<br><br><strong>Lucy:</strong> " + reply;
+
+      input.value = "";
+      input.focus();
     }
-  </script>
-
-</body>
+  </script></body>
 </html>
