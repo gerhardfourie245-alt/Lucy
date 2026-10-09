@@ -113,6 +113,21 @@ style="display:block; margin:auto; width:80%; max-width:400px;">
         reply = replies[Math.floor(Math.random() * replies.length)];
       }
 
+      if (
+        previousMessage !== "" &&
+        (
+          words.includes("tell me more") ||
+          words.includes("what do you mean") ||
+          words.includes("why") ||
+          words === "yes" ||
+          words === "no"
+        )
+      ) {
+        reply = "I'm following our conversation. Tell me a little more so I understand.";
+      }
+
+      previousMessage = message;
+
       chat.innerHTML =
         "<strong>You:</strong> " + message +
         "<br><br><strong>Lucy:</strong> " + reply;
