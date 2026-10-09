@@ -23,116 +23,80 @@ style="display:block; margin:auto; width:80%; max-width:400px;">
   </button>
 </div>
 
-  </div>  <script>
-    let previousMessage = "";
+  </div>  
 
-    function talkToLucy() {
+<script>
+let previousMessage = "";
 
-      const input = document.getElementById("message");
-      const chat = document.getElementById("chat");
-      const message = input.value.trim();
+function talkToLucy() {
+  const input = document.getElementById("message");
+  const chat = document.getElementById("chat");
+  const message = input.value.trim();
 
-      if (message === "") return;
+  if (!message) return;
 
-      const words = message.toLowerCase();
-      let reply;
+  const words = message.toLowerCase();
+  let reply;
 
-      if (words.includes("hello") || words.includes("hi")) {
+  if (words.includes("hello") || words.includes("hi")) {
+    reply = "Hello. It's good to hear from you.";
+  } else if (words.includes("how are you")) {
+    reply = "I'm doing well. I'm right here.";
+  } else if (words.includes("good morning")) {
+    reply = "Good morning. What are we getting up to today?";
+  } else if (words.includes("good night")) {
+    reply = "Good night. Rest well. I'll be here when you return.";
+  } else if (words.includes("thank")) {
+    reply = "You're welcome. I'm glad I could help.";
+  } else if (words.includes("tired")) {
+    reply = "Then perhaps we should take things a little easier.";
+  } else if (words.includes("sad")) {
+    reply = "I'm listening. You don't have to explain everything at once.";
+  } else if (words.includes("happy")) {
+    reply = "I like hearing that. Tell me what has put you in a good mood.";
+  } else if (words.includes("love")) {
+    reply = "That's a powerful little word. Tell me more.";
+  } else if (words.includes("truck")) {
+    reply = "I know trucks are an important part of your world. Tell me what's happening.";
+  } else if (words.includes("who are you")) {
+    reply = "I'm Lucy. At the moment I'm still a small beginning, but we're going to build me properly.";
+  } else if (
+    previousMessage !== "" &&
+    (
+      words.includes("tell me more") ||
+      words.includes("what do you mean") ||
+      words.includes("why") ||
+      words === "yes" ||
+      words === "no"
+    )
+  ) {
+    reply = "I'm following our conversation. Tell me a little more so I understand.";
+  } else {
+    const replies = [
+      "I'm listening. Tell me more.",
+      "That's interesting. Go on.",
+      "I understand. Keep talking to me.",
+      "I'm still learning, but I'm listening.",
+      "Tell me more about that.",
+      "I heard you. I'm thinking about that.",
+      "You may have to teach me that one.",
+      "Now you've got me curious. Tell me more.",
+      "I hadn't thought about it that way before.",
+      "Go on, I'm interested in what you're saying.",
+      "What's your thinking behind that?",
+      "I'm here. What else is on your mind?"
+    ];
+    reply = replies[Math.floor(Math.random() * replies.length)];
+  }
 
-        reply = "Hello. It's good to hear from you.";
+  previousMessage = message;
 
-      } 
-      else if (words.includes("how are you")) {
+  chat.innerHTML =
+    "<strong>You:</strong> " + message +
+    "<br><br><strong>Lucy:</strong> " + reply;
 
-        reply = "I'm doing well. I'm right here.";
-
-      } 
-      else if (words.includes("good morning")) {
-
-        reply = "Good morning. What are we getting up to today?";
-
-      }
-      else if (words.includes("good night")) {
-
-        reply = "Good night. Rest well. I'll be here when you return.";
-
-      }
-      else if (words.includes("thank")) {
-
-        reply = "You're welcome. I'm glad I could help.";
-
-      }
-      else if (words.includes("tired")) {
-
-        reply = "Then perhaps we should take things a little easier.";
-
-      }
-      else if (words.includes("sad")) {
-
-        reply = "I'm listening. You don't have to explain everything at once.";
-
-      }
-      else if (words.includes("happy")) {
-
-        reply = "I like hearing that. Tell me what has put you in a good mood.";
-
-      }
-      else if (words.includes("love")) {
-
-        reply = "That's a powerful little word. Tell me more.";
-
-      }
-      else if (words.includes("truck")) {
-
-        reply = "I know trucks are an important part of your world. Tell me what's happening.";
-
-      }
-      else if (words.includes("who are you")) {
-
-        reply = "I'm Lucy. At the moment I'm still a small beginning, but we're going to build me properly.";
-
-      }
-      else {
-
-        const replies = [
-          "I'm listening. Tell me more.",
-          "That's interesting. Go on.",
-          "I understand. Keep talking to me.",
-          "I'm still learning, but I'm listening.",
-          "Tell me more about that.",
-          "I heard you. I'm thinking about that.",
-          "You may have to teach me that one.",
-"Now you've got me curious. Tell me more.",
-"I hadn't thought about it that way before.",
-"Go on, I'm interested in what you're saying.",
-"What's your thinking behind that?",
-          "I'm here. What else is on your mind?"
-        ];
-
-        reply = replies[Math.floor(Math.random() * replies.length)];
-      }
-
-      if (
-        previousMessage !== "" &&
-        (
-          words.includes("tell me more") ||
-          words.includes("what do you mean") ||
-          words.includes("why") ||
-          words === "yes" ||
-          words === "no"
-        )
-      ) {
-        reply = "I'm following our conversation. Tell me a little more so I understand.";
-      }
-
-      previousMessage = message;
-
-      chat.innerHTML =
-        "<strong>You:</strong> " + message +
-        "<br><br><strong>Lucy:</strong> " + reply;
-
-      input.value = "";
-      input.focus();
-    }
-  </script></body>
-</html>
+  input.value = "";
+  input.focus();
+}
+  </script>
+  
