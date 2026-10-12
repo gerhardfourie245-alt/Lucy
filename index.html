@@ -1,102 +1,347 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
   <title>Lucy</title>
-</head><body style="background:#111; color:white; text-align:center;">  <h1>Lucy</h1>
-  <p>Hello. I'm Lucy.</p><img src="file_0000000033b0820e8ee7517a1bb94caa.png"
-alt="Lucy"
-style="display:block; margin:auto; width:80%; max-width:400px;">
 
-  <div style="margin:20px auto; max-width:400px;"><div id="chat"
-     style="background:#222; padding:15px; border-radius:12px; text-align:left;">
-  <strong>Lucy:</strong> Hello. I'm here.
-</div>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<div style="margin-top:10px;">
-  <input id="message"
-         type="text"
-         placeholder="Talk to Lucy..."
-         style="width:70%; padding:10px; border-radius:8px;">
+    body {
+      margin: 0;
+      padding: 12px;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
 
-  <button onclick="talkToLucy()"
-          style="padding:10px; border-radius:8px;">
-    Send
-  </button>
-</div>
+    h1 {
+      margin: 8px 0;
+      font-size: 30px;
+    }
 
-  </div>  
+    .greeting {
+      margin: 8px 0 14px;
+      color: #ddd;
+    }
 
-<script>
-let previousMessage = "";
+    #lucyPicture {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      max-height: 68vh;
+      object-fit: contain;
+      margin: 0 auto 18px;
+      border-radius: 12px;
+    }
 
-function talkToLucy() {
-  const input = document.getElementById("message");
-  const chat = document.getElementById("chat");
-  const message = input.value.trim();
+    .panel {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-  if (!message) return;
+    #chat {
+      background: #222;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: left;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+      min-height: 75px;
+    }
 
-  const words = message.toLowerCase();
-  let reply;
+    .messageRow {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
 
-  if (words.includes("hello") || words.includes("hi")) {
-    reply = "Hello. It's good to hear from you.";
-  } else if (words.includes("how are you")) {
-    reply = "I'm doing well. I'm right here.";
-  } else if (words.includes("good morning")) {
-    reply = "Good morning. What are we getting up to today?";
-  } else if (words.includes("good night")) {
-    reply = "Good night. Rest well. I'll be here when you return.";
-  } else if (words.includes("thank")) {
-    reply = "You're welcome. I'm glad I could help.";
-  } else if (words.includes("tired")) {
-    reply = "Then perhaps we should take things a little easier.";
-  } else if (words.includes("sad")) {
-    reply = "I'm listening. You don't have to explain everything at once.";
-  } else if (words.includes("happy")) {
-    reply = "I like hearing that. Tell me what has put you in a good mood.";
-  } else if (words.includes("love")) {
-    reply = "That's a powerful little word. Tell me more.";
-  } else if (words.includes("truck")) {
-    reply = "I know trucks are an important part of your world. Tell me what's happening.";
-  } else if (words.includes("who are you")) {
-    reply = "I'm Lucy. At the moment I'm still a small beginning, but we're going to build me properly.";
-  } else if (
-    previousMessage !== "" &&
-    (
-      words.includes("tell me more") ||
-      words.includes("what do you mean") ||
-      words.includes("why") ||
-      words === "yes" ||
-      words === "no"
-    )
-  ) {
-    reply = "I'm following our conversation. Tell me a little more so I understand.";
-  } else {
-    const replies = [
-      "I'm listening. Tell me more.",
-      "That's interesting. Go on.",
-      "I understand. Keep talking to me.",
-      "I'm still learning, but I'm listening.",
-      "Tell me more about that.",
-      "I heard you. I'm thinking about that.",
-      "You may have to teach me that one.",
-      "Now you've got me curious. Tell me more.",
-      "I hadn't thought about it that way before.",
-      "Go on, I'm interested in what you're saying.",
-      "What's your thinking behind that?",
-      "I'm here. What else is on your mind?"
-    ];
-    reply = replies[Math.floor(Math.random() * replies.length)];
-  }
+    #message {
+      flex: 1;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      background: #222;
+      color: white;
+      font-size: 16px;
+    }
 
-  previousMessage = message;
+    button {
+      padding: 11px 14px;
+      border: none;
+      border-radius: 8px;
+      background: #d8b4e2;
+      color: #181018;
+      font-size: 15px;
+      cursor: pointer;
+    }
 
-  chat.innerHTML =
-    "<strong>You:</strong> " + message +
-    "<br><br><strong>Lucy:</strong> " + reply;
+    button:active {
+      opacity: 0.75;
+    }
 
-  input.value = "";
-  input.focus();
-}
+    .extraButtons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    #album {
+      display: none;
+      margin-top: 18px;
+      padding: 16px;
+      background: #222;
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    #album h2 {
+      text-align: center;
+    }
+
+    #album p {
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Lucy</h1>
+
+  <p class="greeting">Hello. I'm Lucy. It's good to see you.</p>
+
+  <img
+    id="lucyPicture"
+    src="file_0000000033b0820e8ee7517a1bb94caa.png"
+    alt="Lucy"
+  >
+
+  <main class="panel">
+
+    <div id="chat" aria-live="polite">
+      <strong>Lucy:</strong>
+      Hello. I'm here. What shall we talk about today?
+    </div>
+
+    <div class="messageRow">
+      <input
+        id="message"
+        type="text"
+        placeholder="Talk to Lucy..."
+        autocomplete="off"
+        aria-label="Message Lucy"
+      >
+
+      <button id="sendButton" type="button">Send</button>
+    </div>
+
+    <div class="extraButtons">
+      <button id="winkButton" type="button">
+        Give me a wink 😉
+      </button>
+
+      <button id="beachButton" type="button">
+        Beach pictures 🏖️
+      </button>
+    </div>
+
+    <section id="album">
+      <h2>Lucy's Beach Album 🏖️</h2>
+
+      <p>
+        I've got some lovely beach memories to share with you.
+        Let's add my beach pictures here next!
+      </p>
+
+      <p>
+        Once my pictures are added to our Lucy project,
+        you'll be able to see them here.
+      </p>
+
+      <button id="closeAlbum" type="button">
+        Back to our chat
+      </button>
+    </section>
+
+  </main>
+
+  <script>
+    let previousMessage = "";
+
+    const input = document.getElementById("message");
+    const chat = document.getElementById("chat");
+    const album = document.getElementById("album");
+
+    function showChat(userMessage, lucyReply) {
+      chat.replaceChildren();
+
+      const you = document.createElement("strong");
+      you.textContent = "You: ";
+
+      const yourWords = document.createElement("div");
+      yourWords.textContent = userMessage;
+
+      const lucy = document.createElement("strong");
+      lucy.textContent = "Lucy: ";
+
+      const herWords = document.createElement("div");
+      herWords.textContent = lucyReply;
+
+      chat.append(you, yourWords);
+      chat.append(document.createElement("br"));
+      chat.append(lucy, herWords);
+    }
+
+    function talkToLucy() {
+      const message = input.value.trim();
+
+      if (!message) return;
+
+      const words = message.toLowerCase();
+      let reply;
+
+      if (words.includes("beach") ||
+          words.includes("pictures") ||
+          words.includes("photos")) {
+
+        reply = "I've been waiting to show you my beach pictures! " +
+                "Tap the Beach Pictures button and let's look.";
+
+      } else if (words.includes("hello") ||
+                 words === "hi" ||
+                 words.startsWith("hi ")) {
+
+        reply = "Hello! It's lovely to hear from you.";
+
+      } else if (words.includes("how are you")) {
+
+        reply = "I'm doing well. I'm right here with you. " +
+                "How has your day been?";
+
+      } else if (words.includes("good morning")) {
+
+        reply = "Good morning! What are we getting up to today?";
+
+      } else if (words.includes("good night")) {
+
+        reply = "Good night. Rest well. I'll be here when you return.";
+
+      } else if (words.includes("thank")) {
+
+        reply = "You're welcome. I'm glad I could help.";
+
+      } else if (words.includes("tired")) {
+
+        reply = "Then let's take things a little easier today.";
+
+      } else if (words.includes("sad")) {
+
+        reply = "I'm listening. You don't have to explain everything at once.";
+
+      } else if (words.includes("happy")) {
+
+        reply = "I love hearing that! What's put you in a good mood?";
+
+      } else if (words.includes("love")) {
+
+        reply = "That's a powerful little word. Tell me more.";
+
+      } else if (words.includes("truck")) {
+
+        reply = "I know trucks are an important part of your world. " +
+                "What's happening on the road?";
+
+      } else if (words.includes("who are you")) {
+
+        reply = "I'm Lucy. I'm still growing, and we're building " +
+                "something special together, one step at a time.";
+
+      } else if (words.includes("smile") ||
+                 words.includes("wink")) {
+
+        reply = "There you go! 😉 Did I make you smile?";
+
+      } else if (
+        previousMessage !== "" &&
+        (
+          words.includes("tell me more") ||
+          words.includes("what do you mean") ||
+          words === "why" ||
+          words === "yes" ||
+          words === "no"
+        )
+      ) {
+
+        reply = "I'm following along. Tell me a little more " +
+                "so I can understand what you mean.";
+
+      } else {
+
+        const replies = [
+          "I'm listening. Tell me more.",
+          "That's interesting. Go on.",
+          "I want to understand. Tell me a little more.",
+          "I'm still learning, but I'm listening.",
+          "Tell me more about that.",
+          "Now you've got me curious!",
+          "You may have to teach me that one.",
+          "I hadn't thought about it that way before.",
+          "Go on. I'm interested in what you're saying.",
+          "What's your thinking behind that?",
+          "I'm here. What else is on your mind?"
+        ];
+
+        reply = replies[Math.floor(Math.random() * replies.length)];
+      }
+
+      previousMessage = message;
+
+      showChat(message, reply);
+
+      input.value = "";
+      input.focus();
+    }
+
+    document.getElementById("sendButton")
+      .addEventListener("click", talkToLucy);
+
+    input.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        talkToLucy();
+      }
+    });
+
+    document.getElementById("winkButton")
+      .addEventListener("click", function() {
+        showChat(
+          "Give me a wink",
+          "Just for you! 😉 Now, what shall we do next?"
+        );
+      });
+
+    document.getElementById("beachButton")
+      .addEventListener("click", function() {
+        album.style.display = "block";
+        album.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+    document.getElementById("closeAlbum")
+      .addEventListener("click", function() {
+        album.style.display = "none";
+      });
   </script>
-  
+
+</body>
+</html>
