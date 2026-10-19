@@ -178,185 +178,198 @@
   </main>
 
   <script>
-    let previousMessage = "";
+  let previousMessage = "";
 
-    const input = document.getElementById("message");
-    const chat = document.getElementById("chat");
-    const album = document.getElementById("album");
+  const input = document.getElementById("message");
+  const chat = document.getElementById("chat");
+  const album = document.getElementById("album");
 
-    function showChat(userMessage, lucyReply) {
-      chat.replaceChildren();
+  function showChat(userMessage, lucyReply) {
+    chat.replaceChildren();
 
-      const you = document.createElement("strong");
-      you.textContent = "You: ";
+    const you = document.createElement("strong");
+    you.textContent = "You: ";
 
-      const yourWords = document.createElement("div");
-      yourWords.textContent = userMessage;
+    const yourWords = document.createElement("div");
+    yourWords.textContent = userMessage;
 
-      const lucy = document.createElement("strong");
-      lucy.textContent = "Lucy: ";
+    const lucy = document.createElement("strong");
+    lucy.textContent = "Lucy: ";
 
-      const herWords = document.createElement("div");
-      herWords.textContent = lucyReply;
+    const herWords = document.createElement("div");
+    herWords.textContent = lucyReply;
 
-      chat.append(you, yourWords);
-      chat.append(document.createElement("br"));
-      chat.append(lucy, herWords);
+    chat.append(you, yourWords);
+    chat.append(document.createElement("br"));
+    chat.append(lucy, herWords);
+  }
+
+  function talkToLucy() {
+    const message = input.value.trim();
+    if (!message) return;
+
+    const words = message.toLowerCase();
+    let reply;
+
+    // Lucy's saved truck memory
+    let memory = localStorage.getItem("lucyMemory") || "";
+
+    const remember = message.match(
+      /^my truck is (?:a |an )?(.+)[.!?]*$/i
+    );
+
+    // Answer memory questions before checking other truck phrases
+    if (
+      words.includes("what is my truck") ||
+      words.includes("what's my truck") ||
+      words.includes("remember my truck") ||
+      words.includes("which truck do i drive")
+    ) {
+      reply = memory
+        ? "You told me your truck is " + memory + "."
+        : "You haven't told me what your truck is yet.";
     }
 
-    function talkToLucy() {
-      const message = input.value.trim();
-
-      if (!message) return;
-
-      const words = message.toLowerCase();
-      let reply;
-let memory = localStorage.getItem("lucyMemory") || "";
-
-const remember = message.match(/my truck is a (.+)/i);
-if (remember) {
-  memory = remember[1].trim();
-  localStorage.setItem("lucyMemory", memory);
-}
-      if (words.includes("beach") ||
-          words.includes("pictures") ||
-          words.includes("photos")) {
-
-        reply = "I've been waiting to show you my beach pictures! " +
-                "Tap the Beach Pictures button and let's look.";
-if (
-  words.includes("what is my truck") ||
-  words.includes("what's my truck") ||
-  words.includes("remember my truck")
-) {
-  reply = memory
-    ? "You told me your truck is a " + memory + "."
-    : "You haven't told me what your truck is yet.";
-}
-else
-      } else if (words.includes("hello") ||
-                 words === "hi" ||
-                 words.startsWith("hi ")) {
-
-        reply = "Hello! It's lovely to hear from you.";
-
-      } else if (words.includes("how are you")) {
-
-        reply = "I'm doing well. I'm right here with you. " +
-                "How has your day been?";
-
-      } else if (words.includes("good morning")) {
-
-        reply = "Good morning! What are we getting up to today?";
-
-      } else if (words.includes("good night")) {
-
-        reply = "Good night. Rest well. I'll be here when you return.";
-
-      } else if (words.includes("thank")) {
-
-        reply = "You're welcome. I'm glad I could help.";
-
-      } else if (words.includes("tired")) {
-
-        reply = "Then let's take things a little easier today.";
-
-      } else if (words.includes("sad")) {
-
-        reply = "I'm listening. You don't have to explain everything at once.";
-
-      } else if (words.includes("happy")) {
-
-        reply = "I love hearing that! What's put you in a good mood?";
-
-      } else if (words.includes("love")) {
-
-        reply = "That's a powerful little word. Tell me more.";
-
-      } else if (words.includes("truck")) {
-
-        reply = "I know trucks are an important part of your world. " +
-                "What's happening on the road?";
-
-      } else if (words.includes("who are you")) {
-
-        reply = "I'm Lucy. I'm still growing, and we're building " +
-                "something special together, one step at a time.";
-
-      } else if (words.includes("smile") ||
-                 words.includes("wink")) {
-
-        reply = "There you go! 😉 Did I make you smile?";
-
-      } else if (
-        previousMessage !== "" &&
-        (
-          words.includes("tell me more") ||
-          words.includes("what do you mean") ||
-          words === "why" ||
-          words === "yes" ||
-          words === "no"
-        )
-      ) {
-
-        reply = "I'm following along. Tell me a little more " +
-                "so I can understand what you mean.";
-
-      } else {
-
-        const replies = [
-          "I'm listening. Tell me more.",
-          "That's interesting. Go on.",
-          "I want to understand. Tell me a little more.",
-          "I'm still learning, but I'm listening.",
-          "Tell me more about that.",
-          "Now you've got me curious!",
-          "You may have to teach me that one.",
-          "I hadn't thought about it that way before.",
-          "Go on. I'm interested in what you're saying.",
-          "What's your thinking behind that?",
-          "I'm here. What else is on your mind?"
-        ];
-
-        reply = replies[Math.floor(Math.random() * replies.length)];
-      }
-
-      previousMessage = message;
-
-      showChat(message, reply);
-
-      input.value = "";
-      input.focus();
+    // Save a new truck memory
+    else if (remember) {
+      memory = remember[1].trim().replace(/[.!?]+$/, "");
+      localStorage.setItem("lucyMemory", memory);
+      reply = "I'll remember that your truck is " + memory + ".";
     }
 
-    document.getElementById("sendButton")
-      .addEventListener("click", talkToLucy);
+    else if (
+      words.includes("beach") ||
+      words.includes("pictures") ||
+      words.includes("photos")
+    ) {
+      reply = "I've been waiting to show you my beach pictures! " +
+              "Tap the Beach Pictures button and let's look.";
+    }
 
-    input.addEventListener("keydown", function(event) {
-      if (event.key === "Enter") {
-        talkToLucy();
-      }
+    else if (
+      words.includes("hello") ||
+      words === "hi" ||
+      words.startsWith("hi ")
+    ) {
+      reply = "Hello! It's lovely to hear from you.";
+    }
+
+    else if (words.includes("how are you")) {
+      reply = "I'm doing well. I'm right here with you. " +
+              "How has your day been?";
+    }
+
+    else if (words.includes("good morning")) {
+      reply = "Good morning! What are we getting up to today?";
+    }
+
+    else if (words.includes("good night")) {
+      reply = "Good night. Rest well. I'll be here when you return.";
+    }
+
+    else if (words.includes("thank")) {
+      reply = "You're welcome. I'm glad I could help.";
+    }
+
+    else if (words.includes("tired")) {
+      reply = "Then let's take things a little easier today.";
+    }
+
+    else if (words.includes("sad")) {
+      reply = "I'm listening. You don't have to explain everything at once.";
+    }
+
+    else if (words.includes("happy")) {
+      reply = "I love hearing that! What's put you in a good mood?";
+    }
+
+    else if (words.includes("love")) {
+      reply = "That's a powerful little word. Tell me more.";
+    }
+
+    else if (words.includes("truck")) {
+      reply = "I know trucks are an important part of your world. " +
+              "What's happening on the road?";
+    }
+
+    else if (words.includes("who are you")) {
+      reply = "I'm Lucy. I'm still growing, and we're building " +
+              "something special together, one step at a time.";
+    }
+
+    else if (
+      words.includes("smile") ||
+      words.includes("wink")
+    ) {
+      reply = "There you go! 😉 Did I make you smile?";
+    }
+
+    else if (
+      previousMessage !== "" &&
+      (
+        words.includes("tell me more") ||
+        words.includes("what do you mean") ||
+        words === "why" ||
+        words === "yes" ||
+        words === "no"
+      )
+    ) {
+      reply = "I'm following along. Tell me a little more " +
+              "so I can understand what you mean.";
+    }
+
+    else {
+      const replies = [
+        "I'm listening. Tell me more.",
+        "That's interesting. Go on.",
+        "I want to understand. Tell me a little more.",
+        "I'm still learning, but I'm listening.",
+        "Tell me more about that.",
+        "Now you've got me curious!",
+        "You may have to teach me that one.",
+        "I hadn't thought about it that way before.",
+        "Go on. I'm interested in what you're saying.",
+        "What's your thinking behind that?",
+        "I'm here. What else is on your mind?"
+      ];
+
+      reply = replies[Math.floor(Math.random() * replies.length)];
+    }
+
+    previousMessage = message;
+    showChat(message, reply);
+
+    input.value = "";
+    input.focus();
+  }
+
+  document.getElementById("sendButton")
+    .addEventListener("click", talkToLucy);
+
+  input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") talkToLucy();
+  });
+
+  document.getElementById("winkButton")
+    .addEventListener("click", function() {
+      showChat(
+        "Give me a wink",
+        "Just for you! 😉 Now, what shall we do next?"
+      );
     });
 
-    document.getElementById("winkButton")
-      .addEventListener("click", function() {
-        showChat(
-          "Give me a wink",
-          "Just for you! 😉 Now, what shall we do next?"
-        );
-      });
+  document.getElementById("beachButton")
+    .addEventListener("click", function() {
+      album.style.display = "block";
+      album.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
 
-    document.getElementById("beachButton")
-      .addEventListener("click", function() {
-        album.style.display = "block";
-        album.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
+  document.getElementById("closeAlbum")
+    .addEventListener("click", function() {
+      album.style.display = "none";
+    });
+</script>
 
-    document.getElementById("closeAlbum")
-      .addEventListener("click", function() {
-        album.style.display = "none";
-      });
-  </script>
 
 </body>
 </html>
