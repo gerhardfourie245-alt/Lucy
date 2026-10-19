@@ -224,7 +224,16 @@ if (remember) {
 
         reply = "I've been waiting to show you my beach pictures! " +
                 "Tap the Beach Pictures button and let's look.";
-
+if (
+  words.includes("what is my truck") ||
+  words.includes("what's my truck") ||
+  words.includes("remember my truck")
+) {
+  reply = memory
+    ? "You told me your truck is a " + memory + "."
+    : "You haven't told me what your truck is yet.";
+}
+else
       } else if (words.includes("hello") ||
                  words === "hi" ||
                  words.startsWith("hi ")) {
