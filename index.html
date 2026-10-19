@@ -211,7 +211,13 @@
 
       const words = message.toLowerCase();
       let reply;
+let memory = localStorage.getItem("lucyMemory") || "";
 
+const remember = message.match(/my truck is a (.+)/i);
+if (remember) {
+  memory = remember[1].trim();
+  localStorage.setItem("lucyMemory", memory);
+}
       if (words.includes("beach") ||
           words.includes("pictures") ||
           words.includes("photos")) {
